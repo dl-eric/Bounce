@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 public class MainApp extends Application{
@@ -14,6 +15,8 @@ public class MainApp extends Application{
 	private Pane startLayout;
 	
 	private static int balls;
+	
+	public static final AudioClip BOUNCE_SOUND = new AudioClip("file:res/pew.wav");
 
 	@Override
 	public void start(Stage startStage) {

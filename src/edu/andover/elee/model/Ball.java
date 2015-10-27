@@ -14,11 +14,10 @@ public class Ball {
 	
 	public Ball(double radius, double center_x, double center_y, double x_vel, double y_vel) {
 		ballView = new Circle(center_x, center_y, radius);
-
+		
 		this.x_vel = new SimpleDoubleProperty(x_vel);
 		this.y_vel = new SimpleDoubleProperty(y_vel);
 		
-		ballView.setRadius(radius);
 		ballView.setFill(Color.GRAY);
 	}
 	

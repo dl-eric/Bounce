@@ -2,7 +2,11 @@ package edu.andover.elee.model;
 
 import javafx.scene.layout.Pane;
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -11,25 +15,13 @@ import javafx.collections.ObservableList;
 public class PhysicsAnimation {
 	private ObservableList<Ball> balls = FXCollections.observableArrayList();
 	private final double radius = 32;
-	private int bounces = 0;
 	
-	public PhysicsAnimation(final Pane pane) {
-	    balls.addListener(new ListChangeListener<Ball>() {
-            @Override
-            public void onChanged(Change<? extends Ball> change) {
-                while (change.next()) {
-                    for (Ball b : change.getAddedSubList()) {
-                        pane.getChildren().add(b.getBallView());
-                    }
-                    for (Ball b : change.getRemoved()) {
-                        pane.getChildren().remove(b.getBallView());
-                    }
-                }
-            }
-        });
-	}
+	public IntegerProperty bounces = new SimpleIntegerProperty(0);
+	public DoubleProperty speed = new SimpleDoubleProperty(1);
 	
-	public void spawnBall() {
+	public static AnimationTimer timer;
+	
+	public void spawnBall(Pane pane) {
 		double randomX = Math.random() * 520 + 32;
 		double randomY = Math.random() * 320 + 32;
 		double randomSpeed = Math.random() * 1000;
@@ -38,12 +30,15 @@ public class PhysicsAnimation {
 		double y_vel = randomSpeed * Math.sin(randomAngle);
 		Ball ball = new Ball(radius, randomX, randomY, x_vel, y_vel);
 		balls.add(ball);
+		pane.getChildren().add(ball.getBallView());
 	}
 	
 	public void initializeWorld(final Pane pane) {
-		//TODO: paraphrase
+		
 		final LongProperty lastUpdateTime = new SimpleLongProperty(0);
-        final AnimationTimer timer = new AnimationTimer() {
+        timer = new AnimationTimer() {
+        	
+        	//Gets called every tick
             @Override
             public void handle(long timestamp) {
             	
@@ -58,8 +53,22 @@ public class PhysicsAnimation {
 
         };
         timer.start();
+        
+	    balls.addListener(new ListChangeListener<Ball>() {
+            @Override
+            public void onChanged(Change<? extends Ball> change) {
+                while (change.next()) {
+                    for (Ball b : change.getAddedSubList()) {
+                        pane.getChildren().add(b.getBallView());
+                    }
+                    for (Ball b : change.getRemoved()) {
+                        pane.getChildren().remove(b.getBallView());
+                    }
+                }
+            }
+        });
 	}
-	
+
 	private void timeStep(long time) {
 		double seconds = time / 1000000000; // Convert time to seconds
 		
@@ -70,7 +79,7 @@ public class PhysicsAnimation {
         }
 	}
 	
-	private void checkCollisions(int width, int height) {
+	private void checkCollisions(double width, double height) {
 		
 	}
 	
