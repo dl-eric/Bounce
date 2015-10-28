@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application{
 
-	private Stage stage;
+	public static Stage stage;
 	private Pane startLayout;
 	
 	private static int balls;

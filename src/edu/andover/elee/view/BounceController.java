@@ -1,5 +1,6 @@
 package edu.andover.elee.view;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -39,7 +40,6 @@ public class BounceController implements Initializable {
 		{
 			System.out.println("YAY");
 		}
-
 	}
 	
 	@Override
@@ -61,40 +61,14 @@ public class BounceController implements Initializable {
 		}));
 	
 		world.initializeWorld(worldPane);
-		
-		Task task = new Task<Void>() {
-
-			@Override
-			protected Void call() throws Exception {
-				String s = bounces.getText();
-				
-				boolean isOverThousand = false;
-				while(!isOverThousand){
-					System.out.println(Integer.parseInt(bounces.getText()));
-					if(Integer.parseInt(bounces.getText()) >= 1000) {
-						System.out.println("YAY!!");
-						isOverThousand = true;
-						changeScene();
-						return null;
-					}
-				}
-				return null;
-			}
-
-		};
-		Thread th = new Thread(task);
-		th.setDaemon(true);
-		th.start();
 	}
 	
-	public void changeScene() throws Exception{
-		Stage stage;
+	public void changeScene() throws IOException {
 		Parent root;
-		
-		stage = (Stage) worldPane.getScene().getWindow();
-		
+		Stage stage = MainApp.stage;
+
 		root = FXMLLoader.load(getClass().getResource("EndLayout.fxml"));
-		
+
 		Scene scene = new Scene(root);
 
 		stage.setScene(scene);

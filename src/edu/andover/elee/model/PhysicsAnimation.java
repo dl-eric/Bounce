@@ -1,10 +1,14 @@
 package edu.andover.elee.model;
 
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.util.ListIterator;
 
 import edu.andover.elee.MainApp;
+import edu.andover.elee.view.BounceController;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -14,6 +18,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 
 public class PhysicsAnimation {
 	private ObservableList<Ball> balls = FXCollections.observableArrayList();
@@ -26,7 +31,7 @@ public class PhysicsAnimation {
 	public DoubleProperty speed = new SimpleDoubleProperty(1);
 
 	public static AnimationTimer timer;
-	
+
 	public void spawnBall(Pane pane) {
 		double randomX = Math.random() * 520 + 32;
 		double randomY = Math.random() * 320 + 32;
@@ -53,6 +58,16 @@ public class PhysicsAnimation {
 					long elapsedTime = timestamp - lastUpdateTime.get();
 					checkCollisions();
 					timeStep(elapsedTime);
+					if(bounces.get() >= 1000) {
+						try {
+							BounceController bc = new BounceController();
+							
+							bc.changeScene();
+							timer.stop();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
 				}
 
 				lastUpdateTime.set(timestamp);
@@ -81,7 +96,7 @@ public class PhysicsAnimation {
 			Ball b = iterator.next();
 			double x_vel = b.getXVel();
 			double y_vel = b.getYVel();
-	
+
 			if((b.getXCenter() - b.getRadius() <= 0 && x_vel < 0) || (b.getXCenter() + b.getRadius() >= xBounds && x_vel > 0)) {
 				b.setConstantXVel(-b.getConstantXVel());
 				b.setXVel(-x_vel);
@@ -99,5 +114,4 @@ public class PhysicsAnimation {
 
 	public void stopAnimation() { timer.stop(); }
 	public void startAnimation() { timer.start(); }
-
 }
