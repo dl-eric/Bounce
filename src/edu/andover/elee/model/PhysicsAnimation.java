@@ -9,10 +9,8 @@ import edu.andover.elee.view.BounceController;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -44,38 +42,30 @@ public class PhysicsAnimation {
 
 	public void initializeWorld(final Pane pane) {
 
-		final LongProperty lastTimestamp = new SimpleLongProperty(0);
 		timer = new AnimationTimer() {
 
 			//Gets called every tick
 			@Override
 			public void handle(long timestamp) {
-			
-				if (lastTimestamp.get() > 0) {
-					long time = 10000000;
-				
-					checkCollisions();
-					timeStep(time);
-					if(bounces.get() >= 1000) {
-						try {
-							BounceController bc = new BounceController();
-							
-							bc.changeScene();
-							timer.stop();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+				checkCollisions();
+				timeStep();
+				if(bounces.get() >= 1000) {
+					try {
+						BounceController bc = new BounceController();
+
+						bc.changeScene();
+						timer.stop();
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
 				}
-
-				lastTimestamp.set(timestamp);
 			}
 		};
 		timer.start();
 	}
 
-	private void timeStep(long time) {
-		double seconds = time / 1000000000.0; // Convert time to seconds
+	private void timeStep() {
+		double seconds = 0.01; // Seconds in terms of velocity unit
 
 		// Update ball
 		for (Ball b : balls) {

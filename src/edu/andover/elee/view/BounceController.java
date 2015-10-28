@@ -52,7 +52,7 @@ public class BounceController implements Initializable {
 
 		worldPane.setOnKeyPressed(( event -> {
 			if (event.getCode() == KeyCode.P) {
-				world.stopAnimation();
+				PhysicsAnimation.stopAnimation();
 				System.out.println("YAY");
 			}
 		}));
