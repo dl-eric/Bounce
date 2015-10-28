@@ -26,7 +26,7 @@ public class StartController implements Initializable{
 
 	@FXML
 	private Text error;
-
+	
 	private BooleanBinding booleanBind;
 
 	@Override
@@ -49,12 +49,13 @@ public class StartController implements Initializable{
 			MainApp.setBalls(Integer.parseInt(numberBallsInput.getText()));
 			
 			root = FXMLLoader.load(getClass().getResource("BounceLayout.fxml"));
+			
 			Scene scene = new Scene(root);
+	
 			stage.setScene(scene);
 			stage.setResizable(false);
 			stage.show();
-			
-			
+						
 		} else {
 			error.setText("Please enter a valid number.");
 		}

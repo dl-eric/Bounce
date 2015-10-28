@@ -11,7 +11,7 @@
       <Pane fx:id="worldPane" prefHeight="400.0" prefWidth="600.0" />
       <Pane prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #d3d3d3;">
          <children>
-            <Slider fx:id="speedSlider" blockIncrement="0.1" layoutX="42.0" layoutY="166.0" max="2.0" orientation="VERTICAL" value="1.0" />
+            <Slider fx:id="speedSlider" blockIncrement="0.1" layoutX="42.0" layoutY="166.0" max="2.1" min="0.1" orientation="VERTICAL" value="1.0" />
             <Label layoutX="24.0" layoutY="29.0" text="Bounces" />
             <Text fx:id="bounces" layoutX="-18.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="136.0000044107437">
                <font>

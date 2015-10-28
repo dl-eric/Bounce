@@ -29,7 +29,7 @@ public class MainApp extends Application{
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/StartLayout.fxml"));
 			startLayout = (Pane) loader.load();
-
+		
 			// Show the Scene
 			Scene scene = new Scene(startLayout);
 			stage.setScene(scene);

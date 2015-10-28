@@ -2,26 +2,45 @@ package edu.andover.elee.view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
 
 import edu.andover.elee.MainApp;
 import edu.andover.elee.model.PhysicsAnimation;
+import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Slider;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 
 public class BounceController implements Initializable {
 
 	@FXML 
 	private Text bounces;
-	
+
 	@FXML
 	private Slider speedSlider;
-	
+
 	@FXML
 	private Pane worldPane;
+
+	@FXML
+	private void handleKeyInput(final KeyEvent k)
+	{
+		if (k.getCode() == KeyCode.P)
+		{
+			System.out.println("YAY");
+		}
+
+	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -29,12 +48,57 @@ public class BounceController implements Initializable {
 		PhysicsAnimation world = new PhysicsAnimation();
 		bounces.textProperty().bindBidirectional(world.bounces, new NumberStringConverter());
 		speedSlider.valueProperty().bindBidirectional(world.speed);
-		
+
 		for(int i = 0; i < MainApp.getBalls(); i++) {
 			world.spawnBall(worldPane);
 		}
-		
-		world.initializeWorld(worldPane);
-	}
 
+		worldPane.setOnKeyPressed(( event -> {
+			if (event.getCode() == KeyCode.P) {
+				world.stopAnimation();
+				System.out.println("YAY");
+			}
+		}));
+	
+		world.initializeWorld(worldPane);
+		
+		Task task = new Task<Void>() {
+
+			@Override
+			protected Void call() throws Exception {
+				String s = bounces.getText();
+				
+				boolean isOverThousand = false;
+				while(!isOverThousand){
+					System.out.println(Integer.parseInt(bounces.getText()));
+					if(Integer.parseInt(bounces.getText()) >= 1000) {
+						System.out.println("YAY!!");
+						isOverThousand = true;
+						changeScene();
+						return null;
+					}
+				}
+				return null;
+			}
+
+		};
+		Thread th = new Thread(task);
+		th.setDaemon(true);
+		th.start();
+	}
+	
+	public void changeScene() throws Exception{
+		Stage stage;
+		Parent root;
+		
+		stage = (Stage) worldPane.getScene().getWindow();
+		
+		root = FXMLLoader.load(getClass().getResource("EndLayout.fxml"));
+		
+		Scene scene = new Scene(root);
+
+		stage.setScene(scene);
+		stage.setResizable(false);
+		stage.show();
+	}
 }
