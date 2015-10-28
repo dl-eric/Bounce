@@ -50,12 +50,10 @@ public class StartController implements Initializable{
 			scene.setOnKeyPressed(key -> {
 		
 				if(PhysicsAnimation.isPaused == false && key.getCode() == KeyCode.P) {
-					
 					PhysicsAnimation.stopAnimation();
 					PhysicsAnimation.isPaused = true;
 				}
 				else if(PhysicsAnimation.isPaused == true && key.getCode() == KeyCode.P) {
-					
 					PhysicsAnimation.startAnimation();
 					PhysicsAnimation.isPaused = false;
 				}
