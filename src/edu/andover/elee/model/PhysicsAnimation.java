@@ -1,9 +1,6 @@
 package edu.andover.elee.model;
 
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import java.util.ListIterator;
 
@@ -18,7 +15,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
 
 public class PhysicsAnimation {
 	private ObservableList<Ball> balls = FXCollections.observableArrayList();
@@ -31,6 +27,7 @@ public class PhysicsAnimation {
 	public DoubleProperty speed = new SimpleDoubleProperty(1);
 
 	public static AnimationTimer timer;
+	public static boolean isPaused;
 
 	public void spawnBall(Pane pane) {
 		double randomX = Math.random() * 520 + 32;
@@ -47,17 +44,18 @@ public class PhysicsAnimation {
 
 	public void initializeWorld(final Pane pane) {
 
-		final LongProperty lastUpdateTime = new SimpleLongProperty(0);
+		final LongProperty lastTimestamp = new SimpleLongProperty(0);
 		timer = new AnimationTimer() {
 
 			//Gets called every tick
 			@Override
 			public void handle(long timestamp) {
-
-				if (lastUpdateTime.get() > 0) {
-					long elapsedTime = timestamp - lastUpdateTime.get();
+			
+				if (lastTimestamp.get() > 0) {
+					long time = 10000000;
+				
 					checkCollisions();
-					timeStep(elapsedTime);
+					timeStep(time);
 					if(bounces.get() >= 1000) {
 						try {
 							BounceController bc = new BounceController();
@@ -70,7 +68,7 @@ public class PhysicsAnimation {
 					}
 				}
 
-				lastUpdateTime.set(timestamp);
+				lastTimestamp.set(timestamp);
 			}
 		};
 		timer.start();
@@ -112,6 +110,6 @@ public class PhysicsAnimation {
 		}
 	}
 
-	public void stopAnimation() { timer.stop(); }
-	public void startAnimation() { timer.start(); }
+	public static void stopAnimation() { timer.stop(); }
+	public static void startAnimation() { timer.start(); }
 }
