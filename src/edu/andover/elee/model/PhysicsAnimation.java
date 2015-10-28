@@ -28,13 +28,22 @@ public class PhysicsAnimation {
 	public static boolean isPaused;
 
 	public void spawnBall(Pane pane) {
+		// Randomize Position
 		double randomX = Math.random() * 520 + 32;
 		double randomY = Math.random() * 320 + 32;
+		
+		// Randomize Speed
 		//double randomSpeed = Math.random() * 900;
-		double randomSpeed = 500;
+		double randomSpeed = 500; // Set speed, so not random. Check previous line for randomized code.
+		
+		// Randomize Angle
 		double randomAngle = Math.random() * 2 * Math.PI;
+		
+		// Randomize Velocity
 		double x_vel = randomSpeed * Math.cos(randomAngle);
 		double y_vel = randomSpeed * Math.sin(randomAngle);
+		
+		// Spawn Ball
 		Ball ball = new Ball(radius, randomX, randomY, x_vel, y_vel);
 		balls.add(ball);
 		pane.getChildren().add(ball.getBallView());

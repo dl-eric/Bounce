@@ -37,6 +37,9 @@ public class StartController implements Initializable{
 		if (isValidBallNumber(numberBallsInput.getText()) 
 				&& Integer.parseInt(numberBallsInput.getText()) == 0) {
 			error.setText("Zero balls? How about not."); 
+		} else if (isValidBallNumber(numberBallsInput.getText())
+				&& Integer.parseInt(numberBallsInput.getText()) > 50) {
+			error.setText("Okay. Let's not get ahead of ourselves now. Lower that number.");
 		} else if (isValidBallNumber(numberBallsInput.getText())) {
 
 			stage = (Stage)letsButton.getScene().getWindow();
