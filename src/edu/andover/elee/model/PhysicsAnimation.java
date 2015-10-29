@@ -2,6 +2,7 @@ package edu.andover.elee.model;
 
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
 import java.util.ListIterator;
 
 import edu.andover.elee.MainApp;
@@ -11,12 +12,10 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class PhysicsAnimation {
-	private ObservableList<Ball> balls = FXCollections.observableArrayList();
-	private final double radius = 32;
+	private ArrayList<Ball> balls = new ArrayList<Ball>();
+	private final double radius = 16;	//Fixed radius for all balls
 
 	private double xBounds = 600;
 	private double yBounds = 400;
@@ -34,7 +33,7 @@ public class PhysicsAnimation {
 		
 		// Randomize Speed
 		//double randomSpeed = Math.random() * 900;
-		double randomSpeed = 500; // Set speed, so not random. Check previous line for randomized code.
+		double randomSpeed = 500; // Set fixed speed, so not random. Check previous line for randomized code.
 		
 		// Randomize Angle
 		double randomAngle = Math.random() * 2 * Math.PI;
@@ -50,7 +49,6 @@ public class PhysicsAnimation {
 	}
 
 	public void initializeWorld(final Pane pane) {
-
 		timer = new AnimationTimer() {
 
 			//Gets called every tick
@@ -58,6 +56,7 @@ public class PhysicsAnimation {
 			public void handle(long timestamp) {
 				checkCollisions();
 				timeStep();
+				
 				if(bounces.get() >= 1000) {
 					try {
 						BounceController bc = new BounceController();
@@ -100,6 +99,7 @@ public class PhysicsAnimation {
 				bounces.set(bounces.get() + 1);
 				MainApp.BOUNCE_SOUND.play();
 			}
+			
 			if((b.getYCenter() - b.getRadius() <= 0 && y_vel < 0) || (b.getYCenter() + b.getRadius() >= yBounds && y_vel > 0)){
 				b.setConstantYVel(-b.getConstantYVel());
 				b.setYVel(-y_vel);

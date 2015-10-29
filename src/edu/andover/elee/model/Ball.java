@@ -11,8 +11,8 @@ public class Ball {
 	private DoubleProperty y_vel;
 	private double y_vel_constant;
 	private double x_vel_constant;
-	private final Circle ballView;
 	private final double radius;
+	private final Circle ballView;
 	
 	public Ball(double radius, double center_x, double center_y, double x_vel, double y_vel) {
 		

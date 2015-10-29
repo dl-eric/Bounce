@@ -13,7 +13,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -29,15 +28,6 @@ public class BounceController implements Initializable {
 
 	@FXML
 	private Pane worldPane;
-
-	@FXML
-	private void handleKeyInput(final KeyEvent k)
-	{
-		if (k.getCode() == KeyCode.P)
-		{
-			System.out.println("YAY");
-		}
-	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -53,7 +43,6 @@ public class BounceController implements Initializable {
 		worldPane.setOnKeyPressed(( event -> {
 			if (event.getCode() == KeyCode.P) {
 				PhysicsAnimation.stopAnimation();
-				System.out.println("YAY");
 			}
 		}));
 	
